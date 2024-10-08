@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href="bio.css" rel="stylesheet">
+    <title>Apenas o Snow</title>
+</head>
+<body>
+    <section>
+        <div class="background-section">
+            <video id="meuVideo" src="video/video.mp4" autoplay loop muted></video>
+            <audio id="meuAudio" src="assets/musica.mp3"></audio>
+            <audio id="meuAudio2" src="assets/musica2.mp3"></audio> <!-- Música 2 -->
+        </div>
+        <div class="container">
+            <header>
+                <img src="image/foto.png" alt="foto perfil">
+                <h1>Bio do Snow</h1>
+                <p>desenvolvedor full stack.</p>
+            </header>
+
+            <section class="botoeslinks">
+                <a href="https://discord.gg/MyBRg99h8F" target="_blank" class="click">
+                    <button class="degrade">
+                        <span>Discord</span>
+                        <i class="bi bi-discord"></i>
+                    </button>
+                </a>
+                <a href="https://tracker.gg/valorant/profile/riot/Snowツ%23TR4/overview" target="_blank" class="click">
+                    <button class="degrade">
+                        <span>Tracker</span>
+                        <i class="bi bi-person-lines-fill"></i>
+                    </button>
+                </a>
+                <a href="https://www.roblox.com/pt/users/1718949254/profile" target="_blank" class="click">
+                    <button class="degrade">
+                        <span>Roblox</span>
+                        <img src="https://www.citypng.com/public/uploads/preview/hd-new-roblox-logo-icon-png-7017516947874640u7jdms7jd.png" alt="Roblox" style="width: 24px; height: 24px;">
+                    </button>
+                </a>
+            </section>
+
+            <footer>
+                <a href="#" class="outroslinks degrade" target="_blank"><i class="bi bi-brilliance"></i></a>
+            </footer>
+        </div>
+    </section>
+
+    <div class="audio-control">
+        <button id="playPauseBtn">Play</button> <!-- Botão único -->
+        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1">
+        <button id="changeBtn">Trocar Vídeo/Música</button> <!-- Botão para trocar -->
+    </div>
+
+    <div id="overlay">
+        <div id="overlayText">Clique para continuar</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio1 = document.getElementById('meuAudio');
+            const audio2 = document.getElementById('meuAudio2');
+            const video = document.getElementById('meuVideo');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const volumeControl = document.getElementById('volumeControl');
+            let isPlaying = false; // Para controlar o estado de reprodução
+            let isFirstMedia = true; // Para alternar entre os dois
+
+            // Função para tocar e pausar a música e o vídeo
+            playPauseBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio1.pause();
+                    audio2.pause();
+                    video.pause();
+                    playPauseBtn.textContent = 'Play';
+                } else {
+                    (isFirstMedia ? audio1 : audio2).play();
+                    video.play();
+                    playPauseBtn.textContent = 'Pause';
+                }
+                isPlaying = !isPlaying; // Alterna o estado de reprodução
+            });
+
+            // Função para trocar o vídeo e a música
+            document.getElementById('changeBtn').addEventListener('click', () => {
+                isFirstMedia = !isFirstMedia; // Alterna entre as mídias
+                if (isFirstMedia) {
+                    video.src = "video/video.mp4"; // Troca para o vídeo 1
+                    audio1.currentTime = 0; // Reinicia a música 1
+                    audio1.play();
+                    audio2.pause(); // Para a música 2
+                } else {
+                    video.src = "video/video2.mp4"; // Troca para o vídeo 2
+                    audio2.currentTime = 0; // Reinicia a música 2
+                    audio2.play();
+                    audio1.pause(); // Para a música 1
+                }
+                video.play(); // Toca o vídeo novo
+            });
+
+            // Função para controlar o volume
+            volumeControl.addEventListener('input', () => {
+                audio1.volume = volumeControl.value;
+                audio2.volume = volumeControl.value; // Ajusta o volume da segunda música também
+            });
+        });
+
+        // Função para remover o overlay e o desfoque
+        document.getElementById('overlay').addEventListener('click', function() {
+            this.style.display = 'none'; // Esconde o overlay
+            document.body.style.overflow = 'auto'; // Permite rolagem
+            document.getElementById('meuAudio').play(); // Inicia a música
+        });
+    </script>
+</body>
+</html>
